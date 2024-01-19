@@ -13,6 +13,8 @@ display:flex;
 const SearchWrap = styled(Box)`
 color:#000;
 padding:5px;
+position:relative;
+top:4px;
 `;
 
 function Search() {
