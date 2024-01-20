@@ -2,14 +2,15 @@ import { Box, Typography, styled } from '@mui/material'
 import { navData } from '../../constants/data'
 
 const Componet = styled(Box)`
+padding:0 100px 10px 100px;
 display:flex;
-justify-content:center;
-gap:25px;
+justify-content:space-between;
 align-items:center;
 background: #fff;
 min-height: 126px;
 color: #111112;
 text-align:center;
+margin:0 10px;
 `
 
 const TextStyle = styled(Typography)`
