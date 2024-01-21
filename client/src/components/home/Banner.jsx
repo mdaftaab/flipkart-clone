@@ -3,7 +3,8 @@ import 'react-multi-carousel/lib/styles.css';
 import { bannerData } from '../../constants/data'
 import { Box, styled } from '@mui/material';
 const Slide = styled(Box)`
-margin:15px 0px;
+margin:15px 10px;
+overflow:hidden;
 `
 const responsive = {
     superLargeDesktop: {
@@ -27,7 +28,14 @@ const responsive = {
 
 const Banner = () => {
     return (
-        <Carousel responsive={responsive} style={{margin:'0 10px'}}>
+        <Carousel
+        swipeable={false}
+        draggable={false}
+        responsive={responsive}
+        infinite={true}
+        autoPlay={true}
+        autoPlaySpeed={2000}
+        >
             {bannerData.map(data => (
                 <Slide key={data.id}>
                     <img src={data.url} alt="banner" style={{height:'250px'}} />
