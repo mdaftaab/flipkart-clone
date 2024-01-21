@@ -1,7 +1,9 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 const Connection = async () =>{
-    const URL = 'mongodb+srv://mdyash99:OvZlajqWY6pk0asE@flipkart.knxmdja.mongodb.net/flipkart_db?retryWrites=true&w=majority';
+    const URL = process.env.MONGODB_URL;
     try{
        await mongoose.connect(URL, {useNewUrlParser: true, useUnifiedTopology: true});
        console.log("Database connected Successfully")

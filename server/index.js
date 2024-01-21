@@ -1,14 +1,20 @@
 import express from 'express';
-import Connection from './database/db.js'
-const PORT = 8000;
+import Connection from './database/db.js';
+import DefaultData from './default.js';
+import dotenv from "dotenv";
+const PORT = process.env.PORT || 8000;
+
+dotenv.config();
 const app = express();
 
 Connection();
 
 app.listen(PORT, ()=>{
-    console.log(`server is runing on ${PORT} successfully`)
+    console.log(`server is runing on PORT ${PORT} successfully`)
 })
 
-app.use('/', (req, res) => {
+app.get('/', (req, res) => {
     res.send("hello");
 })
+
+DefaultData();
