@@ -1,5 +1,6 @@
 import { Box, Typography, Dialog, TextField, styled, Button } from '@mui/material';
 import { useState } from 'react';
+import { authenticateSignup } from '../../services/api.js';
 
 const PopupBox = styled(Box)`
     display:flex;
@@ -95,14 +96,15 @@ const LoginDialog = ({ open, setOpen }) => {
         toggleAccount(accountIntitialValue.signup);
     }
 
-    const onInputChange = (e)=>{
+    const onInputChange = (e) => {
         // console.log(e.target.value);
-        setSignup({...signup, [e.target.name]: e.target.value})
-        console.log(setSignup);
+        setSignup({ ...signup, [e.target.name]: e.target.value })
+        // console.log(setSignup);
     }
 
-    const signupUser = () =>{
-        console.log(signup);
+    const signupUser = async () => {
+        let response = await authenticateSignup(signup);
+
     }
 
     return (
@@ -134,13 +136,13 @@ const LoginDialog = ({ open, setOpen }) => {
                             :
 
                             <ContentBox>
-                                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name="firstname" label="Enter Firstname" />
-                                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name="lastname" label="Enter Lastname" />
-                                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name="username" label="Enter Username" />
-                                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name="email" label="Enter Email" />
-                                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name="password" label="Enter Password" />
-                                <TextField variant="standard" onChange={(e)=>onInputChange(e)} name="phone" label="Enter Phone" style={{ marginBottom: '10px' }} />
-                                <LoginButton onClick={()=>signupUser()}>Continue</LoginButton>
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name="firstname" label="Enter Firstname" />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name="lastname" label="Enter Lastname" />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name="username" label="Enter Username" />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name="email" label="Enter Email" />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name="password" label="Enter Password" />
+                                <TextField variant="standard" onChange={(e) => onInputChange(e)} name="phone" label="Enter Phone" style={{ marginBottom: '10px' }} />
+                                <LoginButton onClick={() => signupUser()}>Continue</LoginButton>
                             </ContentBox>
                     }
                 </PopupBox>

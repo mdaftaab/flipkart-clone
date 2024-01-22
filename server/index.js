@@ -2,19 +2,23 @@ import express from 'express';
 import Connection from './database/db.js';
 import DefaultData from './default.js';
 import dotenv from "dotenv";
-const PORT = process.env.PORT || 8000;
+import Router from './routes/route.js';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 
-dotenv.config();
+const PORT = process.env.PORT || 8000;
 const app = express();
+dotenv.config();
+
+app.use(cors());
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', Router);
 
 Connection();
 
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     console.log(`server is runing on PORT ${PORT} successfully`)
-})
-
-app.get('/', (req, res) => {
-    res.send("hello");
 })
 
 DefaultData();
