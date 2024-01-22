@@ -1,6 +1,7 @@
 import { Box, Typography, Dialog, TextField, styled, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { authenticateSignup } from '../../services/api.js';
+import { DataContext } from '../../context/DataProvider';
 
 const PopupBox = styled(Box)`
     display:flex;
@@ -87,6 +88,8 @@ const LoginDialog = ({ open, setOpen }) => {
     const [account, toggleAccount] = useState(accountIntitialValue.login);
     const [signup, setSignup] = useState(signuoIntitialValue);
 
+    const {setAccount} = useContext(DataContext)
+
     const handleClose = () => {
         setOpen(false);
         toggleAccount(accountIntitialValue.login);
@@ -104,6 +107,9 @@ const LoginDialog = ({ open, setOpen }) => {
 
     const signupUser = async () => {
         let response = await authenticateSignup(signup);
+        if(!response) return;
+        handleClose();
+        setAccount(signup.firstname);
 
     }
 

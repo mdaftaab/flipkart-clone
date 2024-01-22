@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Box, Button, Typography, styled } from "@mui/material"
-import {ShoppingCart} from '@mui/icons-material';
+import { ShoppingCart } from '@mui/icons-material';
 import LoginDialog from '../login/loginDialog';
+import { DataContext } from "../../context/DataProvider";
 
 const Wrapper = styled(Box)`
     display: flex;
@@ -25,27 +26,31 @@ align-items: center;
 gap: 5px;
 margin-left:20px;
 `;
-const CustomButtons = () =>{
+const CustomButtons = () => {
     const [open, setOpen] = useState(false);
-
+    const { account } = useContext(DataContext);
     const handleClickOpen = () => {
-      setOpen(true);
+        setOpen(true);
     };
     return (
         <>
-        <Wrapper>
-            <Button variant="contained" onClick={()=>handleClickOpen()}>Login</Button>
-            <Typography style={{width:'140px'}}>Become a Seller</Typography>
-            <Typography>More</Typography>
+            <Wrapper>
+                {
+                    account ? <Typography>{account}</Typography> :
+                    <Button variant="contained" onClick={() => handleClickOpen()}>Login</Button>
+                }
 
-            <CardBox>
-                <ShoppingCart/>
-                <Typography>Cart</Typography>
-            </CardBox>
-            <LoginDialog open={open} setOpen={setOpen}/>
-        </Wrapper>
+                <Typography style={{ width: '140px' }}>Become a Seller</Typography>
+                <Typography>More</Typography>
 
-        
+                <CardBox>
+                    <ShoppingCart />
+                    <Typography>Cart</Typography>
+                </CardBox>
+                <LoginDialog open={open} setOpen={setOpen} />
+            </Wrapper>
+
+
         </>
     )
 }

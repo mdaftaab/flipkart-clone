@@ -1,5 +1,5 @@
 import axios from 'axios';
-const URL = 'https://8000-monospace-flipkart-clone-1705812985097.cluster-22qpi2wzsjc4utjzyqn2yu6ar6.cloudworkstations.dev';
+const URL = 'http://localhost:8000';
 
 
 export const authenticateSignup = async (data) => {
