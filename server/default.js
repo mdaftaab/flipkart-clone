@@ -8,7 +8,7 @@ const DefaultData = async () => {
             console.log('Data imported Successfully');
             
     } catch (error) {
-        console.log('Error while inseting default data',error.message);
+        console.log('Error while inserting default data',error.message);
     }
 }
 export default DefaultData

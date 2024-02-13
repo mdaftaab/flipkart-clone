@@ -1,7 +1,7 @@
 import { Box, Typography, styled } from '@mui/material'
 import { navData } from '../../constants/data'
 
-const Componet = styled(Box)`
+const Component = styled(Box)`
 padding:0 100px 10px 100px;
 display:flex;
 justify-content:space-between;
@@ -22,7 +22,7 @@ font-weight:500;
 
 function NavBar() {
     return (
-        <Componet>
+        <Component>
             {navData.map(data => (
                 <Box key={data.id}>
                     <img src={data.url} alt="nav" style={{width:'64px'}} />
@@ -31,7 +31,7 @@ function NavBar() {
                     </TextStyle>
                 </Box>
             ))}
-        </Componet>
+        </Component>
     )
 }
 

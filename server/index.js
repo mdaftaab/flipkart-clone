@@ -18,7 +18,7 @@ app.use('/', Router);
 Connection();
 
 app.listen(PORT, () => {
-    console.log(`server is runing on PORT ${PORT} successfully`)
+    console.log(`server is running on PORT ${PORT} successfully`)
 })
 
 DefaultData();

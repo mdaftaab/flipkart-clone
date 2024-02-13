@@ -1,6 +1,9 @@
+import { useState, useContext, useEffect } from 'react';
+
 import { Box, Typography, Dialog, TextField, styled, Button } from '@mui/material';
-import { useState, useContext } from 'react';
-import { authenticateSignup } from '../../services/api.js';
+
+import { authenticateSignup, authenticateLogin } from '../../services/api.js';
+
 import { DataContext } from '../../context/DataProvider';
 
 const PopupBox = styled(Box)`
@@ -39,6 +42,13 @@ const LoginButton = styled(Button)`
     border: none;
     color: #fff;
 `
+const Error = styled(Typography)`
+    font-size: 10px;
+    color: #ff6161;
+    line-height: 0;
+    margin-top: 10px;
+    font-weight: 600;
+`
 
 const OTPButton = styled(Button)`
     background: #fff;
@@ -62,7 +72,7 @@ const CreateAccount = styled(Typography)`
     font-weight:600;
     cursor:pointer;
 `
-const accountIntitialValue = {
+const accountInitialValues = {
     login: {
         view: 'login',
         heading: 'Login',
@@ -70,47 +80,70 @@ const accountIntitialValue = {
     },
     signup: {
         view: 'signup',
-        heading: 'Looks like you are new here!',
-        subHeading: 'Signup with your mobile number to get started'
+        heading: "Looks like you're new here",
+        subHeading: 'Signup to get started'
     }
 }
 
-const signuoIntitialValue = {
+const loginInitialValues = {
+    username: '',
+    password: ''
+};
+
+const signupInitialValues = {
     firstname: '',
     lastname: '',
     username: '',
     email: '',
     password: '',
     phone: ''
-}
+};
 
 const LoginDialog = ({ open, setOpen }) => {
-    const [account, toggleAccount] = useState(accountIntitialValue.login);
-    const [signup, setSignup] = useState(signuoIntitialValue);
+    const [login, setLogin] = useState(loginInitialValues)
+    const [signup, setSignup] = useState(signupInitialValues);
+    const [ error, showError] = useState(false);
+    const [account, toggleAccount] = useState(accountInitialValues.login);
+
+    useEffect(() => {
+        showError(false);
+    }, [login])
 
     const {setAccount} = useContext(DataContext)
 
     const handleClose = () => {
         setOpen(false);
-        toggleAccount(accountIntitialValue.login);
+        toggleAccount(accountInitialValues.login);
     };
 
     const toggleSignup = () => {
-        toggleAccount(accountIntitialValue.signup);
+        toggleAccount(accountInitialValues.signup);
     }
 
     const onInputChange = (e) => {
-        // console.log(e.target.value);
         setSignup({ ...signup, [e.target.name]: e.target.value })
-        // console.log(setSignup);
     }
 
     const signupUser = async () => {
         let response = await authenticateSignup(signup);
         if(!response) return;
         handleClose();
-        setAccount(signup.firstname);
+        setAccount(signup.username);
+    }
 
+    const onValueChange = (e) => {
+        setLogin({...login, [e.target.name]:e.target.value});
+    }
+
+    const loginUser = async () => {
+        let response = await authenticateLogin(login);
+        if(!response) 
+            showError(true);
+        else {
+            showError(false);
+            handleClose();
+            setAccount(login.username);
+        }
     }
 
     return (
@@ -130,10 +163,11 @@ const LoginDialog = ({ open, setOpen }) => {
                         account.view === 'login' ?
 
                             <ContentBox>
-                                <TextField variant="standard" label="Enter Email/Mobile number" />
-                                <TextField variant="standard" label="Enter Password" />
+                                <TextField variant="standard" onChange={(e) => onValueChange(e)} name="username" label="Enter Email/Mobile number" />
+                                { error && <Error>Please enter valid Email ID/Mobile number</Error> }
+                                <TextField variant="standard" onChange={(e) => onValueChange(e)} name="password" label="Enter Password" />
                                 <Text>By continuing, you agree to Flipkart's Terms of Use and Privacy Policy.</Text>
-                                <LoginButton>Login</LoginButton>
+                                <LoginButton onClick={()=>{loginUser()}}>Login</LoginButton>
                                 <Typography style={{ textAlign: 'center' }}>OR</Typography>
                                 <OTPButton>Request OTP</OTPButton>
                                 <CreateAccount onClick={() => toggleSignup()}>New to Flipkart? create an account</CreateAccount>
